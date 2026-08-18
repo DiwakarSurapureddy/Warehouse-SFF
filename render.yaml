@@ -30,9 +30,8 @@ services:
   # ─────────────────────────────────────────────────────────────────────────
   # 2. Frontend React/Vite (Static Site)
   # ─────────────────────────────────────────────────────────────────────────
-  - type: web
+  - type: static
     name: smartfulfill
-    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
