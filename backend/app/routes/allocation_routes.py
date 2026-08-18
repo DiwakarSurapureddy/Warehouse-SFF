@@ -21,7 +21,7 @@ def confirm_allocation(order_id):
     Executes and commits the allocation decision to the DB, updates reserved stock,
     and advances order to ALLOCATED / PARTIALLY_ALLOCATED state.
     """
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     user_id = data.get('user_id')
     custom_plan = data.get('custom_plan') # Optional overrides
 

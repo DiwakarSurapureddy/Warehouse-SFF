@@ -89,7 +89,7 @@ def get_order(order_id):
 
 @order_bp.route('', methods=['POST'])
 def create_order():
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     customer_name = data.get('customer_name')
     customer_tier = data.get('customer_tier', 'STANDARD')
     priority = data.get('priority', 'NORMAL')
