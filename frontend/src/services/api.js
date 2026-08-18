@@ -29,7 +29,7 @@ api.interceptors.response.use(
 
 export const authApi = {
   login: (username, password) => api.post('/auth/login', { username, password }),
-  demoLogin: (role) => api.post(`/auth/demo-login/${role}`),
+  demoLogin: (role) => api.post(`/auth/demo-login/${role}`, {}),
   register: (data) => api.post('/auth/register', data),
   getMe: () => api.get('/auth/me'),
 };
@@ -42,8 +42,8 @@ export const orderApi = {
   getOrders: (params) => api.get('/orders', { params }),
   getOrder: (id) => api.get(`/orders/${id}`),
   createOrder: (data) => api.post('/orders', data),
-  recalculatePriority: (id) => api.post(`/orders/${id}/recalculate-priority`),
-  dispatchOrder: (id) => api.post(`/orders/${id}/dispatch`),
+  recalculatePriority: (id) => api.post(`/orders/${id}/recalculate-priority`, {}),
+  dispatchOrder: (id) => api.post(`/orders/${id}/dispatch`, {}),
 };
 
 export const inventoryApi = {
@@ -55,40 +55,40 @@ export const inventoryApi = {
 
 export const allocationApi = {
   getRecommendation: (orderId) => api.get(`/allocation/recommend/${orderId}`),
-  confirmAllocation: (orderId, data) => api.post(`/allocation/confirm/${orderId}`, data),
+  confirmAllocation: (orderId, data = {}) => api.post(`/allocation/confirm/${orderId}`, data),
   getBatchEvaluations: () => api.get('/allocation/batch-evaluate'),
 };
 
 export const pickingApi = {
   getTasks: (params) => api.get('/picking/tasks', { params }),
   getTask: (id) => api.get(`/picking/tasks/${id}`),
-  generateRoute: (orderId, data) => api.post(`/picking/generate-route/${orderId}`, data),
-  recordAction: (taskId, data) => api.post(`/picking/tasks/${taskId}/action`, data),
+  generateRoute: (orderId, data = {}) => api.post(`/picking/generate-route/${orderId}`, data),
+  recordAction: (taskId, data = {}) => api.post(`/picking/tasks/${taskId}/action`, data),
 };
 
 export const packingApi = {
   getTasks: (params) => api.get('/packing/tasks', { params }),
   getTask: (id) => api.get(`/packing/tasks/${id}`),
-  startPacking: (id) => api.post(`/packing/tasks/${id}/start`),
-  completePacking: (id, data) => api.post(`/packing/tasks/${id}/complete`, data),
+  startPacking: (id) => api.post(`/packing/tasks/${id}/start`, {}),
+  completePacking: (id, data = {}) => api.post(`/packing/tasks/${id}/complete`, data),
 };
 
 export const qcApi = {
   getChecks: (params) => api.get('/qc/checks', { params }),
   getCheck: (id) => api.get(`/qc/checks/${id}`),
-  submitResult: (id, data) => api.post(`/qc/checks/${id}/submit`, data),
+  submitResult: (id, data = {}) => api.post(`/qc/checks/${id}/submit`, data),
 };
 
 export const exceptionApi = {
   getExceptions: (params) => api.get('/exceptions', { params }),
   getException: (id) => api.get(`/exceptions/${id}`),
   getResolutionOptions: (id) => api.get(`/exceptions/${id}/options`),
-  resolveException: (id, data) => api.post(`/exceptions/${id}/resolve`, data),
+  resolveException: (id, data = {}) => api.post(`/exceptions/${id}/resolve`, data),
 };
 
 export const replenishmentApi = {
   getRecommendations: (warehouseId) => api.get('/replenishment/recommendations', { params: { warehouse_id: warehouseId } }),
-  createPurchaseOrder: (data) => api.post('/replenishment/purchase-order', data),
+  createPurchaseOrder: (data = {}) => api.post('/replenishment/purchase-order', data),
 };
 
 export const analyticsApi = {
@@ -97,7 +97,7 @@ export const analyticsApi = {
 
 export const simulatorApi = {
   getPresets: () => api.get('/simulator/presets'),
-  runSimulation: (data) => api.post('/simulator/run', data),
+  runSimulation: (data = {}) => api.post('/simulator/run', data),
 };
 
 export const copilotApi = {
@@ -107,8 +107,8 @@ export const copilotApi = {
 
 export const notificationApi = {
   getNotifications: (params) => api.get('/notifications', { params }),
-  markRead: (id) => api.post(`/notifications/${id}/read`),
-  markAllRead: () => api.post('/notifications/mark-all-read'),
+  markRead: (id) => api.post(`/notifications/${id}/read`, {}),
+  markAllRead: () => api.post('/notifications/mark-all-read', {}),
 };
 
 export const auditApi = {

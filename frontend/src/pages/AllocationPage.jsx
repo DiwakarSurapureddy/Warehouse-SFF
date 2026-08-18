@@ -37,7 +37,7 @@ const AllocationPage = () => {
   const handleConfirmAllocation = async (orderId) => {
     setExecutingOrder(orderId);
     try {
-      const res = await allocationApi.confirmAllocation(orderId);
+      const res = await allocationApi.confirmAllocation(orderId, {});
       addToast(`Allocation successfully executed for Order #${res.order?.order_number || orderId}!`, 'success');
       // Re-fetch evaluations
       await fetchBatchEvaluations();
@@ -78,34 +78,6 @@ const AllocationPage = () => {
           <RefreshCw className="w-4 h-4" />
           <span>Re-Evaluate Queues</span>
         </button>
-      </div>
-
-      {/* Showcase Callout: Hackathon Demo Scenario Conflict Detection */}
-      <div className="p-5 rounded-3xl bg-gradient-to-r from-rose-950/40 via-slate-900 to-indigo-950/40 border border-rose-500/40 shadow-glow-rose">
-        <div className="flex items-start gap-3.5">
-          <div className="p-2.5 rounded-xl bg-rose-950 border border-rose-700 text-rose-400">
-            <AlertTriangle className="w-5 h-5 animate-bounce" />
-          </div>
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-rose-400">
-                ⭐ Hackathon Demonstration: Inventory Shortage & Priority Arbitration
-              </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-900/60 text-rose-200">
-                Live Scenario
-              </span>
-            </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              <strong>Order #ORD-2026-0001</strong> (Critical SLA, 10 units requested) and <strong>Order #ORD-2026-0002</strong> (Normal SLA, 5 units requested) compete for <strong>7 available units</strong> of Sony WH-1000XM5 Headphones.
-            </p>
-            <div className="pt-2 text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>
-                System Decision: Allocate 100% of available 7 units to Critical Order A, place 3 units on controlled backorder, trigger restock PO, and hold Order B.
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Evaluated Order Cards Feed */}

@@ -11,6 +11,6 @@ def get_presets():
 
 @simulator_bp.route('/run', methods=['POST'])
 def run_simulation():
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     res = SimulatorService.run_simulation(data)
     return jsonify(res), 200

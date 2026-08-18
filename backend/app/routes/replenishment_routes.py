@@ -11,7 +11,7 @@ def get_recommendations():
 
 @replenishment_bp.route('/purchase-order', methods=['POST'])
 def create_po():
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     product_id = data.get('product_id')
     quantity = int(data.get('quantity', 100))
     warehouse_id = int(data.get('warehouse_id', 1))

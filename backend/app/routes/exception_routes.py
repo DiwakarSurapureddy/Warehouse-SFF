@@ -37,7 +37,7 @@ def get_resolution_options(exception_id):
 
 @exception_bp.route('/<int:exception_id>/resolve', methods=['POST', 'PUT'])
 def resolve_exception(exception_id):
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     action_code = data.get('action_code', 'MANUAL_SUPERVISOR_OVERRIDE')
     user_id = data.get('user_id')
     notes = data.get('notes')

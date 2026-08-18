@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   RefreshCw, Package, Truck, AlertTriangle, CheckCircle2,
-  DollarSign, Clock, ShieldAlert, Zap, Plus, ArrowRight
+  IndianRupee, Clock, ShieldAlert, Zap, Plus, ArrowRight
 } from 'lucide-react';
 import StatusBadge from '../components/StatusBadge';
 import { replenishmentApi } from '../services/api';
@@ -103,7 +103,7 @@ const ReplenishmentPage = () => {
 
         <div className="glass-panel p-5 rounded-2xl border border-emerald-500/30">
           <div className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Total Recommended PO Value</div>
-          <div className="text-2xl font-bold font-mono text-white mt-1">${totalCost.toLocaleString()}</div>
+          <div className="text-2xl font-bold font-mono text-white mt-1">₹{totalCost.toLocaleString()}</div>
           <p className="text-[11px] text-slate-400 mt-1">Estimated landed cost</p>
         </div>
       </div>
@@ -200,7 +200,7 @@ const ReplenishmentPage = () => {
                             {rec.recommended_reorder_qty} units
                           </span>
                           <span className="text-xs font-mono text-slate-400">
-                            ${rec.total_order_cost.toLocaleString()}
+                            ₹{rec.total_order_cost.toLocaleString()}
                           </span>
                         </div>
                       </div>

@@ -97,7 +97,7 @@ def get_control_tower_data():
                 'Activate fast-track single-line picking route in Zone A',
                 'Pre-reserve Box-M carton at Packing Station 01'
             ],
-            'expected_improvement': '18% faster fulfillment; prevents $2,400 SLA penalty',
+            'expected_improvement': '18% faster fulfillment; prevents ₹2,400 SLA penalty',
             'action_type': 'PRIORITIZE_ORDER',
             'target_id': top_risk_ord.id,
             'cta_text': 'Fast-Track SLA Orders'

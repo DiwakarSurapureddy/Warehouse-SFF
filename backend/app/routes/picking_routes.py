@@ -20,7 +20,7 @@ def list_tasks():
 
 @picking_bp.route('/generate-route/<int:order_id>', methods=['POST'])
 def generate_route(order_id):
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     user_id = data.get('user_id')
     res = PickingOptimizer.generate_optimized_route(order_id, assigned_user_id=user_id)
     if not res.get('success'):
@@ -36,7 +36,7 @@ def get_task(task_id):
 
 @picking_bp.route('/tasks/<int:task_id>/action', methods=['POST'])
 def record_action(task_id):
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     step_number = data.get('step_number')
     action_type = data.get('action_type') # PICK, MISSING, DAMAGED
     user_id = data.get('user_id')

@@ -46,8 +46,7 @@ def complete_packing(task_id):
     task = db.session.get(PackingTask, task_id)
     if not task:
         return jsonify({'error': 'Packing task not found'}), 404
-
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     box_type = data.get('box_type', task.recommended_box_type)
     weight = float(data.get('weight_kg', 2.5))
     dimensions = data.get('dimensions_cm', '30x20x15')

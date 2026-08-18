@@ -5,7 +5,7 @@ copilot_bp = Blueprint('copilot', __name__, url_prefix='/api/copilot')
 
 @copilot_bp.route('/query', methods=['POST'])
 def query_copilot():
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     query_text = data.get('query', '').strip()
     if not query_text:
         return jsonify({'error': 'Query text is required'}), 400

@@ -69,7 +69,7 @@ def adjust_inventory(inventory_id):
     if not inv:
         return jsonify({'error': 'Inventory record not found'}), 404
 
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     delta_total = int(data.get('delta_total', 0))
     delta_damaged = int(data.get('delta_damaged', 0))
     delta_missing = int(data.get('delta_missing', 0))

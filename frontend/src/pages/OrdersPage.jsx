@@ -240,7 +240,7 @@ const OrdersPage = () => {
                     </td>
                     <td className="py-3.5 px-4">
                       <div className="font-mono text-slate-200 font-semibold">{ord.items_count} units</div>
-                      <div className="text-[10px] text-slate-400">${ord.total_amount?.toLocaleString()}</div>
+                      <div className="text-[10px] text-slate-400">₹{ord.total_amount?.toLocaleString()}</div>
                     </td>
                     <td className="py-3.5 px-4">
                       <StatusBadge status={ord.status} />

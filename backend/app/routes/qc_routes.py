@@ -31,8 +31,7 @@ def submit_qc_result(check_id):
     qc = db.session.get(QualityCheck, check_id)
     if not qc:
         return jsonify({'error': 'QC check not found'}), 404
-
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     status = data.get('status', 'PASS') # PASS, FAIL, HOLD
     sku_v = bool(data.get('sku_verified', True))
     qty_v = bool(data.get('quantity_verified', True))
