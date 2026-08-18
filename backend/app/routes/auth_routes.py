@@ -30,7 +30,8 @@ def register():
     db.session.add(user)
     db.session.commit()
 
-    token = create_access_token(identity=user.id)
+    # Identity must be a string for Flask-JWT-Extended v4.6+
+    token = create_access_token(identity=str(user.id))
     return jsonify({
         'message': 'Registration successful',
         'token': token,
@@ -47,7 +48,7 @@ def login():
     if not user or not check_password_hash(user.password_hash, password):
         return jsonify({'error': 'Invalid username or password'}), 401
 
-    token = create_access_token(identity=user.id)
+    token = create_access_token(identity=str(user.id))
     return jsonify({
         'message': 'Login successful',
         'token': token,
@@ -69,7 +70,14 @@ def demo_login(role):
         # Fallback to any user
         user = User.query.first()
 
-    token = create_access_token(identity=user.id)
+    if not user:
+        # DB is empty — seed hasn't run or failed on startup.
+        return jsonify({
+            'error': 'No users in the database. The seed data may not have loaded yet. '
+                     'Please wait a moment and retry, or check the server logs.'
+        }), 503
+
+    token = create_access_token(identity=str(user.id))
     return jsonify({
         'message': f'Logged in as {user.full_name} ({user.role})',
         'token': token,
@@ -79,8 +87,8 @@ def demo_login(role):
 @auth_bp.route('/me', methods=['GET'])
 @jwt_required()
 def get_current_user():
-    user_id = get_jwt_identity()
-    user = db.session.get(User, int(user_id) if str(user_id).isdigit() else user_id)
+    user_id = get_jwt_identity()  # Always a string since we set str(user.id)
+    user = db.session.get(User, int(user_id))
     if not user:
         return jsonify({'error': 'User not found'}), 404
     return jsonify({'user': user.to_dict()}), 200

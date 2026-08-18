@@ -1,0 +1,47 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env
+
+# Database files — NEVER commit the SQLite DB
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment files with secrets
+backend/.env
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+
+# Node
+node_modules/
+frontend/dist/
+frontend/dist-ssr/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.swp
+
+# Pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/

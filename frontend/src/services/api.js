@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+// In local dev: falls back to '/api' (proxied by Vite to localhost:5000).
+// In production (Render Static Site): VITE_API_URL must be set to the deployed backend URL.
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
   headers: {
     'Content-Type': 'application/json',
   },

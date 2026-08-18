@@ -1,0 +1,4 @@
+﻿# Development-only dependencies — NOT required for production/Render deployment
+-r requirements.txt
+pytest>=8.2.0
+

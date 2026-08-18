@@ -8,8 +8,21 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
+    # Validate production secrets early — fails loudly on Render if not set.
+    try:
+        config_class.validate_production_secrets()
+    except AttributeError:
+        pass  # Config subclasses without the method are fine.
+
     # Initialize extensions
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    frontend_url = app.config.get('FRONTEND_URL', '*')
+    if frontend_url == '*':
+        cors_origins = '*'
+    else:
+        # Support comma-separated list of allowed origins
+        cors_origins = [u.strip() for u in frontend_url.split(',') if u.strip()]
+
+    CORS(app, resources={r"/api/*": {"origins": cors_origins}})
     JWTManager(app)
     db.init_app(app)
 
@@ -54,4 +67,30 @@ def create_app(config_class=Config):
             'version': '1.0.0'
         }), 200
 
+    # Auto-create tables and seed if the database is empty.
+    # This ensures a fresh Render deploy is always usable without a manual seeding step.
+    with app.app_context():
+        db.create_all()
+        _auto_seed_if_empty()
+
     return app
+
+
+def _auto_seed_if_empty():
+    """Seed the database with demo data if no users exist yet."""
+    from app.models.models import User
+    try:
+        if User.query.count() == 0:
+            import sys
+            import os
+            # Add backend root to path for seed module
+            backend_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            if backend_root not in sys.path:
+                sys.path.insert(0, backend_root)
+            from seed.seed_data import seed_with_context
+            print("[STARTUP] Database is empty — running auto-seed...")
+            seed_with_context()
+            print("[STARTUP] Auto-seed complete.")
+    except Exception as e:
+        # Do not crash the app if seeding fails — log the error and continue.
+        print(f"[STARTUP WARNING] Auto-seed skipped or failed: {e}")
