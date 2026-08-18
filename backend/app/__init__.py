@@ -59,6 +59,14 @@ def create_app(config_class=Config):
     app.register_blueprint(notification_bp)
     app.register_blueprint(audit_bp)
 
+    @app.route('/', methods=['GET'])
+    def root():
+        return jsonify({
+            'message': 'SmartFulfill AI Backend API is running.',
+            'health_check': '/api/health',
+            'frontend_url': app.config.get('FRONTEND_URL', 'Not Configured')
+        }), 200
+
     @app.route('/api/health', methods=['GET'])
     def health_check():
         return jsonify({
