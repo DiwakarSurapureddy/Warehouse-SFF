@@ -1,11 +1,14 @@
-from flask import Flask, jsonify
+import os
+from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from app.config import Config
 from app.models.models import db
 
 def create_app(config_class=Config):
-    app = Flask(__name__)
+    # Setup static folder pointing to the frontend dist folder
+    frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'frontend', 'dist'))
+    app = Flask(__name__, static_folder=frontend_dir)
     app.config.from_object(config_class)
 
     # Validate production secrets early — fails loudly on Render if not set.
@@ -59,13 +62,14 @@ def create_app(config_class=Config):
     app.register_blueprint(notification_bp)
     app.register_blueprint(audit_bp)
 
-    @app.route('/', methods=['GET'])
-    def root():
-        return jsonify({
-            'message': 'SmartFulfill AI Backend API is running.',
-            'health_check': '/api/health',
-            'frontend_url': app.config.get('FRONTEND_URL', 'Not Configured')
-        }), 200
+    # Serve React App
+    @app.route('/', defaults={'path': ''})
+    @app.route('/<path:path>')
+    def serve(path):
+        if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return send_from_directory(app.static_folder, 'index.html')
 
     @app.route('/api/health', methods=['GET'])
     def health_check():
